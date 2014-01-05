@@ -1,0 +1,7 @@
+#header{
+    width: 100%;
+    background-color: #00ff7f;
+    z-index: 9999;
+    position: fixed;
+    display: inline-block;
+}

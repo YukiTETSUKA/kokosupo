@@ -1,5 +1,6 @@
 <IfModule mod_rewrite.c>
     RewriteEngine on
+    RewriteBase /~g031k117/kokosupo/app/
     RewriteRule    ^$    webroot/    [L]
     RewriteRule    (.*) webroot/$1    [L]
 </IfModule>
