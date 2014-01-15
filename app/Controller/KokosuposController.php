@@ -83,7 +83,7 @@
                $this->Session->setFlash(__('既にその名前は使用されています'));
            }
 
-           return $this->redirect(array('action' => 'index');
+           return $this->redirect(array('action' => 'index'));
        }
 
        public function logout(){
