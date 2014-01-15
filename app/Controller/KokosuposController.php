@@ -1,4 +1,6 @@
 <?php
+    App::import('Vendor','facebook', array('file' => 'facebook'.DS.'src'.DS.'facebook.php')); //sdkのインポート
+
     class KokosuposController extends AppController{
        public $name = 'Kokosupos';
        public $layout = 'kokosupo';
@@ -52,10 +54,36 @@
            return $this->Redirect(array('action' => 'index'));
        }
 
+       private function createFacebook(){
+           return new Facebook(array(
+               'appId' => '715929478430933',
+               'secret' => '44ab206186eb05d1802138a12fc0607e'
+           ));
+       }
+
        public function facebook_login(){
+           $facebook = $this->createFacebook();
+           $url = $facebook->getLoginUrl(array(
+               'scope' => 'email',
+               'canvas' => 1
+           ));
+           $this->redirect($url);
        }
 
        public function facebook_callback(){
+           $user = $facebook->getUser();
+
+           if($user){
+               $data = $this->User->facebook_sign_up($user);
+           }
+
+           if(isset($data['name'])){
+               $this->Auth->login($data);
+           } else{
+               $this->Session->setFlash(__('既にその名前は使用されています'));
+           }
+
+           return $this->redirect(array('action' => 'index');
        }
 
        public function logout(){
