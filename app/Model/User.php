@@ -13,6 +13,9 @@
             ),
         );
 
+        public function auth_login($data){
+        }
+
         public function twitter_sign_up($token){
             if(is_string($token)){
                 return;
