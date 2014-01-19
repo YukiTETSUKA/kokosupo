@@ -29,6 +29,11 @@ div.post_comment{
     margin: 10px;
 }
 
+div.float_clear{
+    margin: 10px;
+    clear: both;
+}
+
 img.image{
     width:  500px;
     height: 500px;

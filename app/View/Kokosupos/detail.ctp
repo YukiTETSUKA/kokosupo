@@ -2,6 +2,7 @@
 
 <h2><?php echo $spot['Spot']['spot_name']; ?></h2>
 
+
 <?php if($spot['User']['id'] == $user['User']['id']): ?>
     <?php echo $this->Html->link('編集', array('action' => 'edit/' . $spot['Spot']['id']  ), array('class' => 'btn btn-success')); ?>
     <?php echo $this->Html->link('削除', array('action' => 'delete/' . $spot['Spot']['id']), array('class' => 'btn btn-danger')); ?>
@@ -62,5 +63,9 @@
                     break;
             }
         ?>
+    </div>
+
+    <div class="float_clear">
+        <?php echo $this->Html->link('戻る', array('action' => 'index'), array('class' => 'btn btn-primary')); ?>
     </div>
 </div>
