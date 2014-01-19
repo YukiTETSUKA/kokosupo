@@ -1,6 +1,6 @@
 <div class="comment col-md-4">
     <?php foreach($spot['Comment'] as $comment): ?>
-        <?php echo $comment['comment']; ?><br />
+        <?php echo htmlspecialchars($comment['comment']); ?><br /><br />
     <?php endforeach; ?>
 </div>
 

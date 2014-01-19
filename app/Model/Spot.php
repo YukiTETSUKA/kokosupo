@@ -10,7 +10,8 @@
         public $hasMany = array(
             'Image' => array(
                 'className'  => 'Image',
-                'conditions' => array('Image.spot_id' => 'id')
+                'conditions' => array('Image.spot_id' => 'id'),
+                'order'      => array('Image.id'      => 'desc'),
             ),
             'Comment' => array(
                 'className'  => 'Comment',

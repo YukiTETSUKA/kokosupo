@@ -115,7 +115,7 @@
         }
 
         public function detail(){
-            debug($this->request);
+            //debug($this->request);
             if(isset($this->request->data['kokosupo']['comment'])){ // コメント投稿
                 $this->Comment->post($this->request->data['kokosupo']);
             } elseif(isset($this->request->data['kokosupo']['comment']) && $this->request->data['kokosupo']['comment'] == ''){
@@ -146,6 +146,26 @@
                 $this->set('various', $this->request->params['pass'][1]);
             } else{
                 $this->set('various', 'comment');
+            }
+        }
+
+        public function edit(){
+            if($this->request->is('post')){
+                $this->Spot->save($this->request->data['kokosupo']);
+                $this->Session->setFlash(__('スポット情報を更新しました'), 'default', array(), 'auth');
+            }
+
+            if(isset($this->request->params['pass'][0])){
+                $spot = $this->Spot->findById($this->request->params['pass'][0]);
+                //if($spot['User']['id'] == $user['User']['id']){
+                    $this->set('spot', $spot);
+                //} else{
+                //    $this->Session->setFlash(__('不正なアクセスです'), 'default', array(), 'auth');
+                //    $this->redirect(array('action' => 'index'));
+                //}
+            } else{
+                $this->Session->setFlash(__('不正なアクセスです'), 'default', array(), 'auth');
+                $this->redirect(array('action' => 'index'));
             }
         }
     }
