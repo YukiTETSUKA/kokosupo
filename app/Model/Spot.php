@@ -3,18 +3,19 @@
         public $name = 'Spot';
         public $belongsTo = array(
             'User' => array(
-                'className' => 'User',
+                'className'  => 'User',
                 'conditinos' => array('User.id' => 'user_id')
             )
         );
         public $hasMany = array(
             'Image' => array(
-                'className' => 'Image',
+                'className'  => 'Image',
                 'conditions' => array('Image.spot_id' => 'id')
             ),
             'Comment' => array(
-                'className' => 'Comment',
-                'conditions' => array('Comment.spot_id' => 'id')
+                'className'  => 'Comment',
+                'conditions' => array('Comment.spot_id' => 'id'),
+                'order'      => array('Comment.id'      => 'desc'),
             )
         );
 

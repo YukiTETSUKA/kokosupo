@@ -4,7 +4,7 @@
     class KokosuposController extends AppController{
         public $name = 'Kokosupos';
         public $layout = 'kokosupo';
-        public $uses = array('User', 'Spot');
+        public $uses = array('User', 'Spot', 'Comment', 'Image');
         public $components = array(
             'DebugKit.Toolbar',
             'TwitterKit.Twitter',
@@ -17,9 +17,12 @@
         );
 
         public function beforeFilter(){
-            //$this->Auth->allow('login', 'logout', 'sign_up', 'twitter_login', 'twitter_callback', 'facebook_login', 'facebook_callback');
+            $this->Auth->allow('login', 'logout', 'sign_up', 'twitter_login', 'twitter_callback', 'facebook_login', 'facebook_callback');
             $user = $this->Auth->user();
+            $user = $this->User->findByName($user['Kokosupo']['name']);
             $this->set('user', $user);
+            debug($user);
+            //debug($this->request);
         }
 
         public function index(){
@@ -112,5 +115,37 @@
         }
 
         public function detail(){
+            debug($this->request);
+            if(isset($this->request->data['kokosupo']['comment'])){ // コメント投稿
+                $this->Comment->post($this->request->data['kokosupo']);
+            } elseif(isset($this->request->data['kokosupo']['comment']) && $this->request->data['kokosupo']['comment'] == ''){
+                $this->Session->setFlash(__('コメントを入力してください'));
+            }
+
+            if(isset($this->request->data['kokosupo']['image'])){ // 画像投稿
+                if($this->Image->upload($this->request->data['kokosupo']['image'], $this->request->params['pass'][0])){
+                    $this->Session->setFlash(__('アップロードに成功しました'));
+                } else{
+                    $this->Session->setFlash(__('アップロードに失敗しました'));
+                }
+            }
+
+            if(isset($this->request->params['pass'][0])){ // 不正アクセスははじく
+                if($spot = $this->Spot->findById($this->request->params['pass'][0])){
+                    $this->set('spot', $spot);
+                } else{
+                    $this->Session->setFlash(__('そのスポットは存在しません'), 'default', array(), 'auth');
+                    $this->redirect(array('action' => 'index'));
+                }
+            } else{
+                $this->Session->setFlash(__('不正なアクセスです'), 'default', array(), 'auth');
+                $this->redirect(array('action' => 'index'));
+            }
+
+            if(isset($this->request->params['pass'][1])){
+                $this->set('various', $this->request->params['pass'][1]);
+            } else{
+                $this->set('various', 'comment');
+            }
         }
     }

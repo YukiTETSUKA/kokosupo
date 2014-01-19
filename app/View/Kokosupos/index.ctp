@@ -25,7 +25,7 @@
 
 <?php foreach($spots as $spot): ?>
     <?php //debug($spot); ?>
-    スポット名: <?php echo $this->Html->link($spot['Spot']['spot_name'], 'detail/' . $spot['Spot']['id']); ?><br />
+    スポット名: <?php echo $this->Html->link($spot['Spot']['spot_name'], array('action' => 'detail/' . $spot['Spot']['id'])); ?><br />
     投稿者: <?php echo $spot['User']['name']; ?><br />
     説明: <?php echo $spot['Spot']['explanation']; ?><br /><br />
 <?php endforeach; ?>

@@ -1,0 +1,40 @@
+div.spot_image{
+    float:  left;
+    width:  500px;
+    height: 500px;
+    margin: 20px;
+}
+
+div.spot_info{
+    float: left;
+}
+
+div.spot_various{
+    clear: both;
+}
+
+div.contents{
+    margin: 10px;
+}
+
+div.comment{
+    float:  left;
+    margin: 10px;
+}
+
+div.post_comment{
+    float:  left;
+    margin: 10px;
+}
+
+img.image{
+    width:  500px;
+    height: 500px;
+}
+
+img.images{
+    width:  250px;
+    height: 250px;
+    margin: 10px;
+    float:  left;
+}
