@@ -18,13 +18,20 @@ div.contents{
 }
 
 div.comment{
-    float:  left;
-    margin: 10px;
+    float:    left;
+    margin:   10px;
+    height:   300px;
+    overflow: scroll;
 }
 
 div.post_comment{
     float:  left;
     margin: 10px;
+}
+
+div.float_clear{
+    margin: 10px;
+    clear: both;
 }
 
 img.image{

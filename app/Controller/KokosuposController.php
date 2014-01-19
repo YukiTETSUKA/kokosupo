@@ -58,7 +58,7 @@
         public function twitter_callback(){
            if(!$this->Twitter->isRequested()){
                 $this->flash(__('invalid access.'), '/', 5);
-                return;
+                return $this->redirect($this->Auth->loginRedirect);
            }
 
            $this->Twitter->setTwitterSource('twitter');
@@ -87,7 +87,7 @@
                 'scope' => 'email',
                 'canvas' => 1
            ));
-           $this->redirect($url);
+           return $this->redirect($url);
         }
 
         public function facebook_callback(){
@@ -101,21 +101,21 @@
                 $this->Auth->login($data);
            } else{
                 $this->Session->setFlash(__('既にその名前は使用されています'));
-                $this->redirect(array('action' => 'login'));
+                return $this->redirect(array('action' => 'login'));
            }
 
-           $this->redirect($this->Auth->loginRedirect);
+           return $this->redirect($this->Auth->loginRedirect);
         }
 
         public function logout(){
            $this->Auth->logout();
            $this->Session->destroy();
            $this->Session->setFlash(__('ログアウトしました'));
-           $this->redirect(array('action' => 'login'));
+           return $this->redirect(array('action' => 'login'));
         }
 
         public function detail(){
-            debug($this->request);
+            //debug($this->request);
             if(isset($this->request->data['kokosupo']['comment'])){ // コメント投稿
                 $this->Comment->post($this->request->data['kokosupo']);
             } elseif(isset($this->request->data['kokosupo']['comment']) && $this->request->data['kokosupo']['comment'] == ''){
@@ -135,11 +135,11 @@
                     $this->set('spot', $spot);
                 } else{
                     $this->Session->setFlash(__('そのスポットは存在しません'), 'default', array(), 'auth');
-                    $this->redirect(array('action' => 'index'));
+                    return $this->redirect(array('action' => 'index'));
                 }
             } else{
                 $this->Session->setFlash(__('不正なアクセスです'), 'default', array(), 'auth');
-                $this->redirect(array('action' => 'index'));
+                return $this->redirect(array('action' => 'index'));
             }
 
             if(isset($this->request->params['pass'][1])){
@@ -147,5 +147,40 @@
             } else{
                 $this->set('various', 'comment');
             }
+        }
+
+        public function edit(){
+            if($this->request->is('post')){
+                $this->Spot->save($this->request->data['kokosupo']);
+                $this->Session->setFlash(__('スポット情報を更新しました'), 'default', array(), 'auth');
+            }
+
+            if(isset($this->request->params['pass'][0])){
+                $spot = $this->Spot->findById($this->request->params['pass'][0]);
+                //if($spot['User']['id'] == $user['User']['id']){
+                    $this->set('spot', $spot);
+                //} else{
+                //    $this->Session->setFlash(__('不正なアクセスです'), 'default', array(), 'auth');
+                //    $this->redirect(array('action' => 'index'));
+                //}
+            } else{
+                $this->Session->setFlash(__('不正なアクセスです'), 'default', array(), 'auth');
+                return $this->redirect(array('action' => 'index'));
+            }
+        }
+
+        public function delete(){
+            if($this->request->is('post') && isset($this->request->data['kokosupo']['delete'])){
+                $this->Spot->delete($this->request->params['pass'][0]);
+                $this->Session->setFlash(__('スポットを削除しました'), 'default', array(), 'auth');
+                return $this->redirect(array('action' => 'index'));
+            }
+
+            if(!isset($this->request->params['pass'][0])){
+                $this->Session->setFlash(__('不正なアクセスです'), 'default', array(), 'auth');
+                return $this->redirect(array('action' => 'index'));
+            }
+
+            $this->set('spot_id', $this->request->params['pass'][0]);
         }
     }
