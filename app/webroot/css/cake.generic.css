@@ -400,12 +400,12 @@ form .error-message {
 
 /** Notices and Errors **/
 .message {
-	clear: both;
-	color: #fff;
-	font-size: 140%;
-	font-weight: bold;
-	margin: 0 0 1em 0;
-	padding: 5px;
+    clear: both;
+    color: #fff;
+    font-size: 140%;
+    font-weight: bold;
+    margin: 0 0 1em 0;
+    padding: 5px;
 }
 
 .success,

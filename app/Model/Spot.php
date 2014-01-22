@@ -20,10 +20,32 @@
             )
         );
 
+        public function register($data){
+            if(isset($data['spot_name'], $data['explanation'])){
+                $data['spot_name']   = htmlspecialchars($data['spot_name']);
+                $data['explanation'] = htmlspecialchars($data['explanation']);
+
+                $this->save($data);
+
+                return 1;
+            }
+
+            return 0;
+        }
+
         public function search($data){
-            $keyword = $data['keyword'];
+            $keyword = htmlspecialchars($data['keyword']);
             $order   = ($data['order'] == 'create_desc' ? 'desc' : 'asc');
-            $spots   = $this->find('all', array('conditions' => array('explanation LIKE' => "%$keyword%"), 'order' => array('Spot.id' => $order)));
+            $spots   = $this->find('all', array(
+                'conditions' => array(
+                    'or' => array(
+                        'spot_name LIKE'   => "%$keyword%",
+                        'explanation LIKE' => "%$keyword%"
+                    ),
+                ),
+                'order' => array('Spot.id' => $order)
+            ));
+
             return $spots;
         }
     }

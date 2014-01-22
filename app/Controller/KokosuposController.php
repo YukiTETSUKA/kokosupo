@@ -21,7 +21,7 @@
             $user = $this->Auth->user();
             $user = $this->User->findByName($user['Kokosupo']['name']);
             $this->set('user', $user);
-            debug($user);
+            //debug($user);
             //debug($this->request);
         }
 
@@ -31,7 +31,7 @@
                $spots = $this->Spot->search($this->request->data['kokosupo']);
                $this->set('spots', $spots);
                if(isset($this->request->data['kokosupo']['keyword'])){
-                   $this->set('keyword', $this->request->data['kokosupo']['keyword']);
+                   $this->set('keyword', htmlspecialchars($this->request->data['kokosupo']['keyword']));
                }
             } else{
                $this->set('spots', $this->Spot->find('all', array('order' => array('Spot.id' => 'desc'))));
@@ -52,7 +52,8 @@
         }
 
         public function twitter_login(){
-           return $this->Redirect($this->Twitter->getAuthenticateUrl(null, true));
+            $this->set('url', $this->Twitter->getAuthenticateUrl(null, true));
+            return $this->Redirect($this->Twitter->getAuthenticateUrl(null, true));
         }
 
         public function twitter_callback(){
@@ -100,7 +101,7 @@
            if(isset($data['name'])){
                 $this->Auth->login($data);
            } else{
-                $this->Session->setFlash(__('既にその名前は使用されています'));
+                $this->Session->setFlash(__('既にその名前は使用されています'), 'default', array(), 'auth');
                 return $this->redirect(array('action' => 'login'));
            }
 
@@ -110,8 +111,15 @@
         public function logout(){
            $this->Auth->logout();
            $this->Session->destroy();
-           $this->Session->setFlash(__('ログアウトしました'));
+           $this->Session->setFlash(__('ログアウトしました'), 'default', array(), 'auth');
            return $this->redirect(array('action' => 'login'));
+        }
+
+        public function register_spot(){
+            if($this->request->is('post') && isset($this->request->data['kokosupo'])){
+                $this->Spot->register($this->request->data['kokosupo']);
+                return $this->redirect($this->Auth->loginRedirect);
+            }
         }
 
         public function detail(){
@@ -153,6 +161,8 @@
             if($this->request->is('post')){
                 $this->Spot->save($this->request->data['kokosupo']);
                 $this->Session->setFlash(__('スポット情報を更新しました'), 'default', array(), 'auth');
+
+                return $this->redirect(array('action' => 'detail/' . $this->request->params['pass'][0]));
             }
 
             if(isset($this->request->params['pass'][0])){

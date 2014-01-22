@@ -1,4 +1,3 @@
-<?php echo $this->Session->flash('auth'); ?><br />
 <?php
     echo $this->Form->create('Kokosupo', array('action' => 'login'));
         echo $this->Form->input('name'    , array('label' => 'ユーザ名'));

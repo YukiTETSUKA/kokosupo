@@ -10,11 +10,10 @@
 
 <div class="spot">
     <div class="spot_image">
-        <?php if(count($spot['Image']) == 0): ?>
-            <?php echo $this->Html->image('no_image.gif', array('alt' => 'no_image', 'class' => 'image')); ?>
-        <?php else: ?>
-            <?php echo $this->Html->image($spot['Image'][rand(0, count($spot['Image']) - 1)]['path'], array('alt' => 'image', 'class' => 'image')); ?>
-        <?php endif; ?>
+        <?php $file_name = count($spot['Image']) == 0? 'no_image.gif': $spot['Image'][rand(0, count($spot['Image']) - 1)]['path']; ?>
+        <?php $alt       = count($spot['Image']) == 0? 'no_image'    : 'image'; ?>
+
+        <?php echo $this->Html->image($file_name, array('alt' => $alt, 'class' => 'image')); ?>
     </div>
     <div class="spot_info">
         説明: <?php echo $spot['Spot']['explanation']; ?><br />
@@ -22,6 +21,10 @@
     </div>
 </div>
 <br />
+
+<div class="float_clear">
+</div>
+
 <div class="spot_various">
     <ul class="nav nav-pills">
         <p class="spot_comment">
@@ -66,6 +69,6 @@
     </div>
 
     <div class="float_clear">
-        <?php echo $this->Html->link('戻る', array('action' => 'index'), array('class' => 'btn btn-primary')); ?>
     </div>
+    <?php echo $this->Html->link('戻る', array('action' => 'index'), array('class' => 'btn btn-primary')); ?>
 </div>
