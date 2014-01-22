@@ -4,12 +4,36 @@
 
         var $validate = array(
             'name' => array(
-                'rule'    => 'isUnique',
-                'message' => '重複です',
+                'alphaNumeric' => array(
+                     'rule'    => 'alphaNumeric',
+                     'message' => '名前として不適切です',
+                     'last'    => true,
+                ),
+                'minLength' => array(
+                     'rule' => array('minLength', '4'),
+                     'message' => '名前は4文字以上です',
+                     'last'    => true,
+                ),
+                'maxLength' => array(
+                     'rule' => array('maxLength', '20'),
+                     'message' => '名前は20文字以下です',
+                     'last'    => true,
+                ),
+                'isUnique' => array(
+                     'rule'    => 'isUnique',
+                     'message' => '重複です',
+                ),
             ),
             'password' => array(
-                'rule' => 'alphaNumeric',
-                'message' => 'パスワードとして不適切です',
+                'minLength' => array(
+                     'rule' => array('minLength', '4'),
+                     'message' => '名前は4文字以上です',
+                     'last'    => true,
+                ),
+                'maxLength' => array(
+                     'rule' => array('maxLength', '20'),
+                     'message' => '名前は20文字以下です'
+                ),
             ),
         );
 
@@ -52,5 +76,7 @@
                     return;
                 }
             }
+
+            return $data;
         }
     }

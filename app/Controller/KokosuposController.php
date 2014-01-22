@@ -88,7 +88,11 @@
 
             if($user){
                 $data['Kokosupo'] = $this->User->facebook_sign_up($user);
-                return $this->redirect($this->Auth->loginRedirect);
+                if(isset($data['Kokosupo']['name'])){
+                    $this->Auth->login($data);
+                    debug($data);
+                    return $this->redirect($this->Auth->loginRedirect);
+                }
             } else{
                $url = $facebook->getLoginUrl(array(
                     'scope' => 'email',
