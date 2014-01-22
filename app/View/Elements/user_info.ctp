@@ -3,7 +3,7 @@
         <?php echo $user['User']['name'] . '　　　　　'; ?>
         <?php echo $this->Html->link('ログアウト', array('action' => 'logout'), array('class' => 'btn btn-danger')); ?>
     </div>
-<? endif; ?>
+<?php endif; ?>
 
 <div class="float_clear">
 </div>
