@@ -13,6 +13,9 @@
             ),
         );
 
+        public function auth_login($data){
+        }
+
         public function twitter_sign_up($token){
             if(is_string($token)){
                 return;
@@ -48,6 +51,37 @@
                 if(!$this->save($data) && !$this->find('first', array('conditions' => array('provider' => $data['provider'], 'provider_id' => $data['provider_id'])))){
                     return;
                 }
+            }
+        }
+        public function signinfb($token){
+            //アクセストークンを正しく取得できなかった場合の処理
+            //debug($token);
+            if(is_string($token))return; //エラー
+            $data['name'] = $token['name'];
+            //$data['email'] = $token['email'];
+            $data['password']    = Security::hash($token['name']);
+            $data['provider'] = 'facebook';
+            $data['provider_id'] = $token['id'];
+            //バリデーションチェックでエラーがなければ、新規登録
+            if($this->validates()){
+                $this->save($data);
+            }
+            $data = $this->find('first', array('conditions' => array('provider_id'=>$data['provider_id'])));
+            return $data; //ログイン情報
+        }
+                public function signin($token){
+            //アクセストークンを正しく取得できなかった場合の処理
+            if(is_string($token))return; //エラー
+ 
+            $data['id'] = $token['user_id'];
+            $data['username'] = $token['screen_name'];
+            $data['password'] = Security::hash($token['oauth_token']);
+            //$data['oauth_token'] = Security::hash($token['oauth_token']);
+            //$data['oauth_token_secret'] = Security::hash($token['oauth_token_secret']);
+ 
+            //バリデーションチェックでエラーがなければ、新規登録
+            if($this->validates())$this->save($data);{
+                return $data; //ログイン情報
             }
         }
     }
