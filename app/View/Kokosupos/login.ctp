@@ -6,4 +6,5 @@
     echo $this->Form->end('ログイン');
 ?>
 <?php echo $this->Html->link('Twitter でログイン', array('action' => 'twitter_login' )); ?><br />
-<?php echo $this->Html->link('Facebookでログイン', array('action' => 'facebook_login')); ?><br />
+<?php echo $this->html->link('Facebookでログイン',array('controller'=>'Fbconnects','action'=>'facebook')); ?><br />
+<?php echo $this->Html->link('新規登録', array('action' => 'sign_up' )); ?><br />

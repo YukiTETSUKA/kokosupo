@@ -19,7 +19,7 @@
         public function beforeFilter(){
             $this->Auth->allow('login', 'logout', 'sign_up', 'twitter_login', 'twitter_callback', 'facebook_login', 'facebook_callback');
             $user = $this->Auth->user();
-            $user = $this->User->findByName($user['Kokosupo']['name']);
+            //$user = $this->User->findByName($user['Kokosupo']['name']);
             $this->set('user', $user);
             debug($user);
             //debug($this->request);
@@ -39,16 +39,30 @@
         }
 
         public function login(){
-            if($this->request->is('post')){
-                if($this->Auth->login($this->request->data)){
-                    $this->redirect($this->Auth->loginRedirect);
-                } else{
+          debug($this->Auth->login());
+          if($this->request->is('post')){
+                if($this->Auth->login()){
+                    $this->Session->delete('Auth.redirect');
+                    return $this->redirect($this->Auth->redirect());
+                }else{
                     $this->Session->setFlash(__('ユーザ名かパスワードが違います'), 'default', array(), 'auth');
                 }
             }
+            // if($this->request->is('post')){
+            //     if($this->Auth->login($this->request->data)){
+            //         $this->redirect($this->Auth->loginRedirect);
+            //     } else{
+            //         $this->Session->setFlash(__('ユーザ名かパスワードが違います'), 'default', array(), 'auth');
+            //     }
+            // }
         }
 
         public function sign_up(){
+          debug($this->request->data);
+          $this->request->data['kokosupo']['password'] = AuthComponent::password($this->request->data['kokosupo']['password']);
+          $this->request->data['kokosupo']['pass_check'] = AuthComponent::password($this->request->data['kokosupo']['pass_check']);
+          $this->User->create();
+          $mse = ($this->User->save($this->request->data['kokosupo']))? '新規ユーザーを追加しました' : 'ユーザ名がおかしいです。パスワードも入力しなおしてください。';
         }
 
         public function twitter_login(){
