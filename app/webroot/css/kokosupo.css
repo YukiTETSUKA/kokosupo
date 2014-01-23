@@ -1,0 +1,126 @@
+body{
+    background-image: url(../img/background/background_01.jpg);
+    width: auto;
+}
+
+div#authMessage{
+    text-align:       center;
+    clear:            both;
+    color:            #fff;
+    font-size:        140%;
+    font-weight:      bold;
+    margin:           1em;
+    padding:          5px;
+    background-color: #DC143C;
+}
+
+div.twitter_login{
+    width: 10%;
+    height: 10%;
+}
+
+div.facebook_login{
+    width: 50%;
+    height: 50%;
+}
+
+div.user_info{
+    /* float: right; */
+    text-align: right;
+    margin: 20px;
+    padding: 10px;
+    opacity: 0.75;
+    background-color: #fff;
+}
+
+div.spot_thumbnail{
+    float:  left;
+    width:  110px;
+    height: 110px;
+    margin: 10px;
+}
+
+div.spot_image{
+    float:  left;
+    width:  500px;
+    height: 500px;
+    margin: 20px;
+}
+
+div.spots_info{
+    float: left;
+    width: 80%;
+    margin: 10px 0px 0px 0px;
+    padding: 10px;
+    opacity: 0.75;
+    background-color: #fff;
+}
+
+div.spot_info{
+    float: left;
+    width: 50%;
+    margin: 10px 0px 0px 0px;
+    padding: 10px;
+    opacity: 0.75;
+    background-color: #fff;
+}
+
+div.spot_various{
+    clear: both;
+    opacity: 0.75;
+    background-color: #fff;
+}
+
+div.contents{
+    margin: 10px;
+}
+
+div.comment{
+    float:    left;
+    margin:   10px;
+    height:   300px;
+    overflow: scroll;
+    border: solid;
+    box-shadow: 4px 4px 4px #999;
+}
+
+div.post_comment{
+    float:  left;
+    margin: 10px;
+}
+
+div.search{
+    margin: 10px;
+    float:  left;
+}
+
+div.register_spot{
+    margin: 10px;
+    float:  left;
+}
+
+div.float_clear{
+    margin: 10px;
+    clear: both;
+}
+
+img.image{
+    width:  500px;
+    height: 500px;
+}
+
+img.images{
+    width:  250px;
+    height: 250px;
+    margin: 10px;
+    float:  left;
+}
+
+img.thumbnail{
+    width:  100px;
+    height: 100px;
+}
+
+.site_title{
+    float: left;
+}

@@ -27,6 +27,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
         echo $this->Html->meta('icon');
 
         echo $this->Html->css('bootstrap.min');
+        echo $this->Html->css('kokosupo');
 
         echo $this->fetch('meta');
         echo $this->fetch('css');
@@ -36,8 +37,11 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 <body>
     <div id="container">
         <div id="header">
-            <h4 class="site-title">ここすぽっ！</h4>
+            <h2 class="site-title">ここすぽっ！</h2>
+            <?php echo $this->element('user_info'); ?>
         </div>
+
+        <?php echo $this->Session->flash('auth'); ?><br />
 
         <div id="content">
 
