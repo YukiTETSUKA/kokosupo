@@ -19,10 +19,14 @@
         public function beforeFilter(){
             $this->Auth->allow('login', 'logout', 'sign_up', 'twitter_login', 'twitter_callback', 'facebook_login', 'facebook_callback');
             $user = $this->Auth->user();
-            $user = $this->User->findByName($user['Kokosupo']['name']);
             $this->set('user', $user);
             //debug($user);
             //debug($this->request);
+            if($this->request->is('mobile')){
+                 //テーマをJqm、レイアウトをjqmに指定します。
+                 $this->theme = 'Jqm';
+                 $this->layout = 'jqm';
+             }
         }
 
         public function index(){
