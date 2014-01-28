@@ -23,6 +23,11 @@
             $user['Kokosupo'] = $this->User->findByName($user['User']['name']);
             //$user['User'] = $user['Kokosupo'];
             $this->set('user', $user);
+            if($this->request->is('mobile')){
+                 //テーマをJqm、レイアウトをjqmに指定します。
+                 $this->theme = 'Jqm';
+                 $this->layout = 'jqm';
+             }
             //debug($user);
             //debug($this->request);
         }
@@ -92,10 +97,13 @@
            $data = $this->User->findByName($user['name']);
 
            if(isset($data['User']['name'])){
-                $this->Auth->login($data);
-           } else{
-                $this->Session->setFlash(__('既にその名前は使用されています'));
-           }
+               $data['User'] = $this->User->twitter_sign_up($token);
+
+               if(isset($data['User']['name'])){
+                    $this->Auth->login($data);
+               } else{
+                    $this->Session->setFlash(__('既にその名前は使用されています'));
+               }
 
            return $this->Redirect($this->Auth->loginRedirect);
         }
@@ -115,6 +123,7 @@
                 $data['Kokosupo'] = $this->User->facebook_sign_up($user);
                 if(isset($data['Kokosupo']['name'])){
                     $this->Auth->login($data);
+                    debug($data);
                     return $this->redirect($this->Auth->loginRedirect);
                 } else{
                     $this->Session->setFlash(__('既にその名前は使用されています'), 'default', array(), 'auth');

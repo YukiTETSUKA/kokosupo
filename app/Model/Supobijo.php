@@ -9,7 +9,11 @@ class Supobijo extends Model{
     );
 
     public function register($data){
+<<<<<<< HEAD
+        debug($data);
+=======
         //debug($data);
+>>>>>>> fae3a585d79acfdd4bacde184cd2ed0fee9bbfd5
         $this->save($data);
     }
 }
