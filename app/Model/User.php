@@ -32,7 +32,8 @@
                 ),
                 'maxLength' => array(
                      'rule' => array('maxLength', '20'),
-                     'message' => 'パスワードは20文字以下です'
+                     'message' => 'パスワードは20文字以下です',
+                     'last' => true,
                 ),
             ),
         );
@@ -40,19 +41,18 @@
         public function auth_login($data){
             if($data['password'] == $data['pass_check']){
                 if(!$this->findByName($data['name'])){ // ユーザ名が使用されているか
-                    $user['name'] = $data['name'];
-                    $user['password'] = AuthComponent::password($data['password']);
-                    $this->set($user); // Modelへ値をセット
                     if($this->validates()){ // バリデーションのチェック
+                        $user['name'] = $data['name'];
+                        $user['password'] = AuthComponent::password($data['password']);
+                        debug($user);
+                        $this->set($user); // Modelへ値をセット
                         $this->create(); // Usersテーブルのレコードを作成
-                        //debug($user);
-                        $result = $this->save($user) ? '登録完了' : '登録失敗';
-                        return $result;
+                        return ($this->save($user, false) ? false : '登録に失敗しました');
                     } else{
                         if(isset($this->validationErrors['name'][0])){
                             return $this->validationErrors['name'][0];
                         } else{
-                            return $this->validationErrors['password'];
+                            return $this->validationErrors['password'][0];
                         }
                     }
                 } else{

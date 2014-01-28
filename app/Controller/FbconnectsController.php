@@ -26,7 +26,7 @@ class FbconnectsController extends AppController {
     public function beforeFilter(){//login処理の設定
         $this->Auth->allow('index', 'facebook', 'fbpost','createFacebook');
         $this->set('user',$this->Auth->user()); // ctpで$userを使えるようにする 。
-        debug($this->Auth->user());
+        //debug($this->Auth->user());
         if($this->request->is('mobile')){
             //テーマをJqm、レイアウトをjqmに指定します。
             $this->theme = 'Jqm';
@@ -37,7 +37,7 @@ class FbconnectsController extends AppController {
         //$this->autoRender = false;
         $this->facebook = $this->createFacebook();
         $user = $this->facebook->getUser();//ユーザ情報取得
-        debug($user);
+        //debug($user);
         if($user){//認証後
             $me = $this->facebook->api('/me','GET',array('locale'=>'ja_JP'));//ユーザ情報を日本語で取得
             $this->Session->write('mydata',$me);//fbデータをセッションに保存

@@ -1,7 +1,7 @@
 <?php
-    echo $this->Form->create('Kokosupo', array('action' => 'login'));
-        echo $this->Form->input('name'    , array('label' => 'ユーザ名'));
-        echo $this->Form->input('password', array('label' => 'パスワード'));
+    echo $this->Form->create('kokosupo', array('action' => 'login'));
+        echo $this->Form->input('name'    , array('type' => 'text', 'label' => 'ユーザ名'));
+        echo $this->Form->input('password', array('type' => 'text','label' => 'パスワード'));
     echo $this->Form->end('ログイン');
 ?>
 <?php echo $this->Html->link('新規登録', array('action' => 'sign_up')); ?>

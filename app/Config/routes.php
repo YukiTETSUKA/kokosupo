@@ -26,9 +26,12 @@
  */
     //Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
     Router::connect('/', array('controller' => 'kokosupos', 'action' => 'login'));
+    Router::connect('/users/*', array('controller' => 'Users'));
+    Router::connect('/Users/*', array('controller' => 'Users'));
     Router::connect('/Fbconnects/*', array('controller' => 'Fbconnects'));
-    Router::connect('/:action/*', array('controller' => 'kokosupos'));
     Router::connect('/kokosupos/*', array('controller' => 'kokosupos'));
+    Router::connect('/Kokosupos/*', array('controller' => 'kokosupos'));
+    Router::connect('/:action/*', array('controller' => 'kokosupos'));
 /**
  * ...and connect the rest of 'Pages' controller's URLs.
  */

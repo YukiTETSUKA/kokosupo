@@ -9,6 +9,15 @@
             'DebugKit.Toolbar',
             'TwitterKit.Twitter',
             'Auth' => array(
+                'authenticate'   => array(
+                    'Form' => array(
+                        'userModel' => 'User',
+                        'fields'    => array(
+                            'name' => 'name',
+                            'password' => 'password',
+                        ),
+                    ),
+                ),
                 'loginRedirect'  => array('action' => 'index'),
                 'logoutRedirect' => array('action' => 'login'),
                 'loginAction'    => array('action' => 'login'),
@@ -46,10 +55,12 @@
         }
 
         public function login(){
+            //debug($this->request);
             if($this->request->is('post')){
                 debug($this->request);
                 if($this->Auth->login()){
-                    $this->redirect($this->Auth->loginRedirect);
+                    //$this->Session->delete('Auth.redirect');
+                    return $this->redirect($this->Auth->loginRedirect);
                 } else{
                     $this->Session->setFlash(__('ユーザ名かパスワードが違います'), 'default', array(), 'auth');
                 }
@@ -72,10 +83,12 @@
                 // パスワードとパスワード(確認)が一致しているか
                 // true: ユーザ情報を登録，false: 再入力を促す
                 $massage = $this->User->auth_login($this->request->data['kokosupo']);
-                $this->Session->setFlash(__($massage), 'default', array(), 'auth');
                 //debug($massage);
-                if($massage == '登録完了'){
+                if($massage == false){
+                    $this->Session->setFlash(__('登録完了'), 'default', array(), 'auth');
                     return $this->redirect(array('action' => 'login'));
+                } else{
+                    $this->Session->setFlash(__($massage), 'default', array(), 'auth');
                 }
             }
         }
@@ -104,6 +117,7 @@
                } else{
                     $this->Session->setFlash(__('既にその名前は使用されています'));
                }
+           }
 
            return $this->Redirect($this->Auth->loginRedirect);
         }
