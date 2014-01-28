@@ -23,6 +23,11 @@
             $user['Kokosupo'] = $this->User->findByName($user['User']['name']);
             //$user['User'] = $user['Kokosupo'];
             $this->set('user', $user);
+            if($this->request->is('mobile')){
+                 //テーマをJqm、レイアウトをjqmに指定します。
+                 $this->theme = 'Jqm';
+                 $this->layout = 'jqm';
+             }
             //debug($user);
             //debug($this->request);
         }
@@ -42,7 +47,10 @@
 
         public function login(){
             if($this->request->is('post')){
+<<<<<<< HEAD
+=======
                 debug($this->request);
+>>>>>>> fae3a585d79acfdd4bacde184cd2ed0fee9bbfd5
                 if($this->Auth->login()){
                     $this->redirect($this->Auth->loginRedirect);
                 } else{
@@ -88,9 +96,15 @@
 
            $this->Twitter->setTwitterSource('twitter');
            $token = $this->Twitter->getAccessToken();
+<<<<<<< HEAD
+           $data['Kokosupo'] = $this->User->twitter_sign_up($token);
+
+           if(isset($data['Kokosupo']['name'])){
+=======
            $data['User'] = $this->User->twitter_sign_up($token);
 
            if(isset($data['User']['name'])){
+>>>>>>> fae3a585d79acfdd4bacde184cd2ed0fee9bbfd5
                 $this->Auth->login($data);
            } else{
                 $this->Session->setFlash(__('既にその名前は使用されています'));
@@ -114,6 +128,10 @@
                 $data['Kokosupo'] = $this->User->facebook_sign_up($user);
                 if(isset($data['Kokosupo']['name'])){
                     $this->Auth->login($data);
+<<<<<<< HEAD
+                    debug($data);
+                    return $this->redirect($this->Auth->loginRedirect);
+=======
                     return $this->redirect($this->Auth->loginRedirect);
                 } else{
                     $this->Session->setFlash(__('既にその名前は使用されています'), 'default', array(), 'auth');
@@ -121,6 +139,7 @@
                     debug($user);
                     debug($data);
                     //return $this->redirect(array('action' => 'login'));
+>>>>>>> fae3a585d79acfdd4bacde184cd2ed0fee9bbfd5
                 }
             } else{
                $url = $facebook->getLoginUrl(array(
