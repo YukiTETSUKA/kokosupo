@@ -27,20 +27,12 @@
             'password' => array(
                 'minLength' => array(
                      'rule' => array('minLength', '4'),
-<<<<<<< HEAD
-                     'message' => '名前は4文字以上です',
-=======
                      'message' => 'パスワードは4文字以上です',
->>>>>>> fae3a585d79acfdd4bacde184cd2ed0fee9bbfd5
                      'last'    => true,
                 ),
                 'maxLength' => array(
                      'rule' => array('maxLength', '20'),
-<<<<<<< HEAD
-                     'message' => '名前は20文字以下です'
-=======
                      'message' => 'パスワードは20文字以下です'
->>>>>>> fae3a585d79acfdd4bacde184cd2ed0fee9bbfd5
                 ),
             ),
         );
@@ -109,8 +101,6 @@
             }
 
             return $data;
-<<<<<<< HEAD
-=======
         }
 
         public function signinfb($token){
@@ -128,6 +118,5 @@
             }
             $data = $this->find('first', array('conditions' => array('provider_id'=>$data['provider_id'])));
             return $data; //ログイン情報
->>>>>>> fae3a585d79acfdd4bacde184cd2ed0fee9bbfd5
         }
     }
