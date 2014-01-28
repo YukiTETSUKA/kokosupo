@@ -4,7 +4,7 @@
     class KokosuposController extends AppController{
         public $name = 'Kokosupos';
         public $layout = 'kokosupo';
-        public $uses = array('User', 'Spot', 'Comment', 'Image');
+        public $uses = array('User', 'Spot', 'Comment', 'Image', 'Supobijo');
         public $components = array(
             'DebugKit.Toolbar',
             'TwitterKit.Twitter',
@@ -19,7 +19,9 @@
         public function beforeFilter(){
             $this->Auth->allow('login', 'logout', 'sign_up', 'twitter_login', 'twitter_callback', 'facebook_login', 'facebook_callback');
             $user = $this->Auth->user();
-            $user = $this->User->findByName($user['Kokosupo']['name']);
+            //debug($user);
+            $user['Kokosupo'] = $this->User->findByName($user['User']['name']);
+            //$user['User'] = $user['Kokosupo'];
             $this->set('user', $user);
             //debug($user);
             //debug($this->request);
@@ -40,15 +42,37 @@
 
         public function login(){
             if($this->request->is('post')){
-                if($this->Auth->login($this->request->data)){
+                debug($this->request);
+                if($this->Auth->login()){
                     $this->redirect($this->Auth->loginRedirect);
                 } else{
                     $this->Session->setFlash(__('ユーザ名かパスワードが違います'), 'default', array(), 'auth');
                 }
+            } else{
+                $url = "http://clip.eventcast.jp/api/v1/Search?Tag=岩手&Format=json";
+                $curl = curl_init();
+                curl_setopt($curl, CURLOPT_URL, $url);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
+                $res = curl_exec($curl);
+                $info = curl_getinfo($curl);
+                curl_close($curl);
+
+                $this->set('api', json_decode($res, true));
             }
         }
 
         public function sign_up(){
+            if($this->request->is('post')){ // POST送信
+                // パスワードとパスワード(確認)が一致しているか
+                // true: ユーザ情報を登録，false: 再入力を促す
+                $massage = $this->User->auth_login($this->request->data['kokosupo']);
+                $this->Session->setFlash(__($massage), 'default', array(), 'auth');
+                //debug($massage);
+                if($massage == '登録完了'){
+                    return $this->redirect(array('action' => 'login'));
+                }
+            }
         }
 
         public function twitter_login(){
@@ -64,9 +88,9 @@
 
            $this->Twitter->setTwitterSource('twitter');
            $token = $this->Twitter->getAccessToken();
-           $data = $this->User->twitter_sign_up($token);
+           $data['User'] = $this->User->twitter_sign_up($token);
 
-           if(isset($data['name'])){
+           if(isset($data['User']['name'])){
                 $this->Auth->login($data);
            } else{
                 $this->Session->setFlash(__('既にその名前は使用されています'));
@@ -83,12 +107,28 @@
         }
 
         public function facebook_login(){
-           $facebook = $this->createFacebook();
-           $url = $facebook->getLoginUrl(array(
-                'scope' => 'email',
-                'canvas' => 1
-           ));
-           return $this->redirect($url);
+            $facebook = $this->createFacebook();
+            $user     = $facebook->getUser();
+
+            if($user){
+                $data['Kokosupo'] = $this->User->facebook_sign_up($user);
+                if(isset($data['Kokosupo']['name'])){
+                    $this->Auth->login($data);
+                    return $this->redirect($this->Auth->loginRedirect);
+                } else{
+                    $this->Session->setFlash(__('既にその名前は使用されています'), 'default', array(), 'auth');
+                    debug($facebook);
+                    debug($user);
+                    debug($data);
+                    //return $this->redirect(array('action' => 'login'));
+                }
+            } else{
+               $url = $facebook->getLoginUrl(array(
+                    'scope' => 'email',
+                    'canvas' => 1
+               ));
+               return $this->redirect($url);
+            }
         }
 
         public function facebook_callback(){
@@ -135,6 +175,14 @@
                     $this->Session->setFlash(__('アップロードに成功しました'));
                 } else{
                     $this->Session->setFlash(__('アップロードに失敗しました'));
+                }
+            }
+
+            if(isset($this->request->data['kokosupo']['bust'])){ // すぽびじょ投稿
+                if($this->Supobijo->register($this->request->data['kokosupo'])){
+                    $this->Session->setFlash(__('すぽびじょに登録しました'));
+                } else{
+                    $this->Session->setFlash(__('すぽびじょに登録できませんでした'));
                 }
             }
 

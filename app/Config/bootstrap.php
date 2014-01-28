@@ -108,3 +108,4 @@ CakeLog::config('error', array(
 
 CakePlugin::load('DebugKit');
 CakePlugin::load('TwitterKit');
+CakePlugin::load('Facebook');

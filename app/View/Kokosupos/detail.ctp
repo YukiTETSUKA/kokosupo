@@ -35,11 +35,11 @@
             <?php endif ?>
         </p>
 
-        <p class="spot_people">
-            <?php if($various == 'people'): ?>
-                <li class="people active" ><?php echo $this->Html->link('人物紹介'  , array('action' => 'detail/' . $spot['Spot']['id'] . '/people' )); ?></li>
+        <p class="supobijo">
+            <?php if($various == 'supobijo'): ?>
+                <li class="supobijo active" ><?php echo $this->Html->link('すぽびじょ'  , array('action' => 'detail/' . $spot['Spot']['id'] . '/supobijo' )); ?></li>
             <?php else: ?>
-                <li class="people" ><?php echo $this->Html->link('人物紹介'  , array('action' => 'detail/' . $spot['Spot']['id'] . '/people' )); ?></li>
+                <li class="supobijo" ><?php echo $this->Html->link('すぽびじょ'  , array('action' => 'detail/' . $spot['Spot']['id'] . '/supobijo' )); ?></li>
             <?php endif ?>
         </p>
 
@@ -58,8 +58,8 @@
                 case 'comment':
                     echo $this->element('comment');
                     break;
-                case 'people':
-                    echo 'people';
+                case 'supobijo':
+                    echo $this->element('supobijo');
                     break;
                 case 'gallery':
                     echo $this->element('gallery');

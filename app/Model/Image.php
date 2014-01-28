@@ -12,7 +12,7 @@
                         $image['path']    = $path;
 
                         $this->save($image);
-                        debug($image);
+                        //debug($image);
                         return 1;
                     }
                 }

@@ -17,6 +17,11 @@
                 'className'  => 'Comment',
                 'conditions' => array('Comment.spot_id' => 'id'),
                 'order'      => array('Comment.id'      => 'desc'),
+            ),
+            'Supobijo' => array(
+                'className'  => 'Supobijo',
+                'conditions' => array('Supobijo.spot_id' => 'id'),
+                'order'      => array('Supobijo.id'      => 'desc')
             )
         );
 

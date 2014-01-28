@@ -14,6 +14,16 @@ div#authMessage{
     background-color: #DC143C;
 }
 
+div.twitter_login{
+    width: 10%;
+    height: 10%;
+}
+
+div.facebook_login{
+    width: 50%;
+    height: 50%;
+}
+
 div.user_info{
     /* float: right; */
     text-align: right;
