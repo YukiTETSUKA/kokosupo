@@ -23,6 +23,11 @@
             $user['Kokosupo'] = $this->User->findByName($user['User']['name']);
             //$user['User'] = $user['Kokosupo'];
             $this->set('user', $user);
+            if($this->request->is('mobile')){
+                 //テーマをJqm、レイアウトをjqmに指定します。
+                 $this->theme = 'Jqm';
+                 $this->layout = 'jqm';
+             }
             //debug($user);
             //debug($this->request);
         }
