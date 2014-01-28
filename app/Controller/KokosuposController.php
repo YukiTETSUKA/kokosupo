@@ -48,18 +48,18 @@
                 } else{
                     $this->Session->setFlash(__('ユーザ名かパスワードが違います'), 'default', array(), 'auth');
                 }
-            } else{
-                $url = "http://clip.eventcast.jp/api/v1/Search?Tag=岩手&Format=json";
-                $curl = curl_init();
-                curl_setopt($curl, CURLOPT_URL, $url);
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-                curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
-                $res = curl_exec($curl);
-                $info = curl_getinfo($curl);
-                curl_close($curl);
-
-                $this->set('api', json_decode($res, true));
             }
+
+            $url = "http://clip.eventcast.jp/api/v1/Search?Tag=岩手&Format=json&Sort=date&Order=desc";
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
+            $res = curl_exec($curl);
+            $info = curl_getinfo($curl);
+            curl_close($curl);
+
+            $this->set('api', json_decode($res, true));
         }
 
         public function sign_up(){
@@ -88,7 +88,8 @@
 
            $this->Twitter->setTwitterSource('twitter');
            $token = $this->Twitter->getAccessToken();
-           $data['User'] = $this->User->twitter_sign_up($token);
+           $user = $this->User->twitter_sign_up($token);
+           $data = $this->User->findByName($user['name']);
 
            if(isset($data['User']['name'])){
                 $this->Auth->login($data);

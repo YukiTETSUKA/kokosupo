@@ -11,6 +11,6 @@
 岩手のイベントから自分のスポットを見つけてはどうですか？<br />
 <?php
 foreach($api['Items'] as $event){
-    echo $this->Html->link($event['Title'], $event['Url']) . '<br />';
+    echo $this->Html->link($event['Title'], $event['Url'], array('target' => '_blank')) . '<br />';
 }
 ?>
